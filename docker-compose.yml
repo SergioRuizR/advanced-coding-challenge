@@ -1,0 +1,14 @@
+version: '2.1'
+services:
+  web:
+    image: dabullet-webapp:latest
+    container_name: webapp
+    build: Web/
+    ports:
+      - 3000:3000
+  api:
+    container_name: api
+    image: dabullet-service:latest
+    build: API/
+    ports:
+      - 3001:80
