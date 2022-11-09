@@ -9,9 +9,9 @@ const TodoList = (props) => {
 
   if (todos.length == 0) {
     return (
-      <div class="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen">
         <div>
-          <h1 class="text-white text-5xl text-center mb-5 mt-5">
+          <h1 className="text-white text-5xl text-center mb-5 mt-5">
             Nothing Here Yet
           </h1>
         </div>
