@@ -18,7 +18,7 @@ namespace DaBulllet.TODO.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok();
+            return Ok("OK");
         }
     }
 }
