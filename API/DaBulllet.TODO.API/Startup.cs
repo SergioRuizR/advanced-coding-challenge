@@ -1,3 +1,8 @@
+﻿using Application.Common.Behaviours;
+using DaBulllet.TODO.API.Filters;
+using Domain.Entities;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -31,9 +36,20 @@ namespace DaBulllet.TODO.API
         {
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-            services.AddControllers();
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite("DataSource=TodoItems.db"));
+            //services.AddControllers();
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("Default")));
             services.AddMediatR(AppDomain.CurrentDomain.Load("Application"));
+            services.AddHealthChecks().AddDbContextCheck<ApplicationDbContext>();
+
+            services.AddControllersWithViews(options =>
+            options.Filters.Add<GlobalExceptionFilterAttribute>())
+                .AddFluentValidation(x => x.AutomaticValidationEnabled = false);
+            services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
+            services.AddValidatorsFromAssembly(AppDomain.CurrentDomain.Load("Application"));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.Load("Application"));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,16 +63,54 @@ namespace DaBulllet.TODO.API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHealthChecks("/health");
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
 
+
+            SeedProducts(app).Wait();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+        }
+
+        public async Task SeedProducts(IApplicationBuilder app)
+        {
+            using var scope = app.ApplicationServices.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+            if (!context.TodoItems.Any())
+            {
+                context.TodoItems.AddRange(new List<TodoItem>
+                {
+                    new TodoItem
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = "New device service",
+                        Description = "Create new service to manage warehouse devices"
+                    },
+                    new TodoItem
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = "Carry out training",
+                        Description = "Arrange meeting to train my team"
+                    },
+                    new TodoItem
+                    {
+                       Id = Guid.NewGuid(),
+                        Title = "Take some rest",
+                        Description = "🙂"
+                    }
+                }); ;
+
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

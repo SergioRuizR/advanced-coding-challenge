@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using AutoMapper;
+using Domain.Entities;
 using Infrastructure.Persistence;
 using MediatR;
 using System;
@@ -21,25 +22,22 @@ namespace Application.TodoItems.Commands.CreateTodoItem
     public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemCommand>
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CreateTodoItemCommandHandler(ApplicationDbContext context)
+        public CreateTodoItemCommandHandler(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<Unit> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
         {
-            var entity = new TodoItem
-            {
-                Id = request.Id,
-                Title = request.Title,
-                Description = request.Description,
-            };
+            var newTodoItem = _mapper.Map<TodoItem>(request);
 
-            _context.TodoItems.Add(entity);
+            _context.TodoItems.Add(newTodoItem);
 
             await _context.SaveChangesAsync(cancellationToken);
-
+                
             return Unit.Value;
         }
     }

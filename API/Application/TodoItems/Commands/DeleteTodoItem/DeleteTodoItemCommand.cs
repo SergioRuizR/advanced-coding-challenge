@@ -1,4 +1,5 @@
-﻿using Infrastructure.Persistence;
+﻿using Domain.Exceptions;
+using Infrastructure.Persistence;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -24,15 +25,15 @@ namespace Application.TodoItems.Commands.DeleteTodoItem
 
         public async Task<Unit> Handle(DeleteTodoItemCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.TodoItems
+            var todoItem = await _context.TodoItems
             .FindAsync(new object[] { request.Id }, cancellationToken);
 
-            //if (entity == null)
-            //{
-            //    throw new NotFoundException(nameof(TodoItem), request.Id);
-            //}
+            if (todoItem == null)
+            {
+                throw new Domain.Exceptions.NotFoundException(nameof(todoItem), request.Id);
+            }
 
-            _context.TodoItems.Remove(entity);
+            _context.TodoItems.Remove(todoItem);
 
             await _context.SaveChangesAsync(cancellationToken);
 

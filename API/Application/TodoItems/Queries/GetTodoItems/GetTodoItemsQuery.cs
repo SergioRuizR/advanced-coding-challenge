@@ -1,4 +1,6 @@
-﻿using Infrastructure.Persistence;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,21 +18,19 @@ namespace Application.TodoItems.Queries.GetTodoItems
     public class GetTodoItemsQueryHandler : IRequestHandler<GetTodoItemsQuery, List<GetTodoItemsQueryResponse>>
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public GetTodoItemsQueryHandler(ApplicationDbContext context)
+
+        public GetTodoItemsQueryHandler(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public Task<List<GetTodoItemsQueryResponse>> Handle(GetTodoItemsQuery request, CancellationToken cancellationToken) =>
             _context.TodoItems
                 .AsNoTracking()
-                .Select(s => new GetTodoItemsQueryResponse
-                {
-                    Id = s.Id,
-                    Title = s.Title,
-                    Description = s.Description
-                })
+                .ProjectTo<GetTodoItemsQueryResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync();
     }
 }
