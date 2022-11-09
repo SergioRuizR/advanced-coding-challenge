@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.Common;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -21,10 +22,31 @@ namespace Infrastructure.Persistence
             Database.EnsureCreated();
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder options) => 
+        //protected override void OnConfiguring(DbContextOptionsBuilder options) =>
         //    options.UseSqlite("DataSource=TodoItems.db");
 
 
         public DbSet<TodoItem> TodoItems => Set<TodoItem>();
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            foreach (var entry in ChangeTracker.Entries<BaseEntity>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.CreatedBy = "User identity";
+                        entry.Entity.CreatedAt = DateTime.UtcNow;
+                        break;
+
+                    case EntityState.Modified:
+                        entry.Entity.LastModifiedBy = "User identity";
+                        entry.Entity.LastModifiedAt = DateTime.UtcNow;
+                        break;
+                }
+            }
+
+            return await base.SaveChangesAsync(cancellationToken);
+        }
     }
 }

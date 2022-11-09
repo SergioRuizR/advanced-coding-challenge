@@ -1,4 +1,5 @@
-﻿using Domain.Exceptions;
+﻿using Application.Common.Attributes;
+using Domain.Exceptions;
 using Infrastructure.Persistence;
 using MediatR;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.TodoItems.Commands.DeleteTodoItem
 {
+    [AuditLog]
     public class DeleteTodoItemCommand : IRequest
     {
         public Guid Id { get; set; }

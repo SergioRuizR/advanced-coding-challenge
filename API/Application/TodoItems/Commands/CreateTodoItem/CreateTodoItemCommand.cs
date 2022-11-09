@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Common.Attributes;
+using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Persistence;
 using MediatR;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.TodoItems.Commands.CreateTodoItem
 {
+    [AuditLog]
     public class CreateTodoItemCommand:IRequest
     {
         public Guid Id { get; set; }

@@ -47,6 +47,8 @@ namespace DaBulllet.TODO.API
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
             services.AddValidatorsFromAssembly(AppDomain.CurrentDomain.Load("Application"));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuditLogsBehavior<,>));
+
 
             services.AddAutoMapper(AppDomain.CurrentDomain.Load("Application"));
 
