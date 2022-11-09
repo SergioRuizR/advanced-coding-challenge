@@ -1,19 +1,34 @@
-import React from 'react';
+import React, { useContext } from "react";
+import TodoItem from "./TodoItem";
+import { TodoContext } from "../context/TodoContext";
 
-import './TodoList.css';
+import "./TodoList.css";
 
-const TodoList = props => {
+const TodoList = (props) => {
+  const { todos } = useContext(TodoContext);
+
+  if (todos.length == 0) {
+    return (
+      <div class="flex flex-col min-h-screen">
+        <div>
+          <h1 class="text-white text-5xl text-center mb-5 mt-5">
+            Nothing Here Yet
+          </h1>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <section className="todo-list">
-      <h2>TODO List</h2>
-      <ul>
-        {props.todos.map(todo => (
-          <li key={todo.id} onClick={props.onRemoveItem.bind(this, todo.id)}>
-            <span>{todo.title}</span>
-            <span>{todo.description}</span>
-          </li>
+    <section className="">
+      <h2 className="text-white text-5xl text-center mb-5 mt-5">TODO List</h2>
+      <div className="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-5">
+        {todos.map((todo) => (
+          <div key={todo.id}>
+            <TodoItem todo={todo} />
+          </div>
         ))}
-      </ul>
+      </div>
     </section>
   );
 };

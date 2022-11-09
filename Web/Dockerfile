@@ -1,16 +1,15 @@
-FROM node:11.14.0-alpine
-RUN apk upgrade -U
+FROM node:lts-alpine3.15
+WORKDIR /app
+COPY package.json .
+RUN npm install
+COPY . .
 
 EXPOSE 3000
 
-COPY . .
+# RUN adduser node root
 
-RUN npm install
+# RUN chmod -R 775 /src
+# RUN chown -R node:root /src
 
-RUN adduser node root
-
-RUN chmod -R 775 /src
-RUN chown -R node:root /src
-
-USER node
+# USER node
 CMD ["npm","start"]

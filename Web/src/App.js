@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import Todos from './components/Todo/Todos';
+import Todos from "./components/Todo/Todos";
 
-const App = props => {
+const App = (props) => {
   return <Todos />;
 };
 
