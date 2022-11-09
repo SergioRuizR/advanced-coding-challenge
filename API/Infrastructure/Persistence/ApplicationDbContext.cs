@@ -17,12 +17,14 @@ namespace Infrastructure.Persistence
 
         }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-        { }
+        {
+            Database.EnsureCreated();
+        }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options) => 
-            options.UseSqlite("DataSource=app.db");
+        //protected override void OnConfiguring(DbContextOptionsBuilder options) => 
+        //    options.UseSqlite("DataSource=TodoItems.db");
 
 
-        public DbSet<TodoItem> Todos => Set<TodoItem>();
+        public DbSet<TodoItem> TodoItems => Set<TodoItem>();
     }
 }

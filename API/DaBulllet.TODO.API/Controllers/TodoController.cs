@@ -1,24 +1,59 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.TodoItems.Commands.CreateTodoItem;
+using Application.TodoItems.Commands.DeleteTodoItem;
+using Application.TodoItems.Queries.GetTodoItems;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DaBulllet.TODO.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class TodoController : ControllerBase
     {
+        private readonly IMediator _mediator;
 
         private readonly ILogger<TodoController> _logger;
 
-        public TodoController(ILogger<TodoController> logger)
+        public TodoController(ILogger<TodoController> logger, IMediator mediator)
         {
             _logger = logger;
+            _mediator = mediator;
         }
 
+        /// <summary>
+        /// Get the todoitems
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<List<GetTodoItemsQueryResponse>> GetTodoItems() => await _mediator.Send(new GetTodoItemsQuery());
+
+        /// <summary>
+        /// Create a new TodoItem
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> CreateTodoItem([FromBody] CreateTodoItemCommand command)
         {
-            return Ok("OK");
+            await _mediator.Send(command);
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Delete a TodoItem
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        public async Task<IActionResult> DeleteTodoItem([FromBody] DeleteTodoItemCommand command)
+        {
+            await _mediator.Send(command);
+
+            return Ok();
         }
     }
 }

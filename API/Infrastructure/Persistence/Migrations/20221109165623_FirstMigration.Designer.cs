@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221109064830_FirstMigration")]
+    [Migration("20221109165623_FirstMigration")]
     partial class FirstMigration
     {
         /// <inheritdoc />
@@ -48,7 +48,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Todos");
+                    b.ToTable("TodoItems");
                 });
 #pragma warning restore 612, 618
         }

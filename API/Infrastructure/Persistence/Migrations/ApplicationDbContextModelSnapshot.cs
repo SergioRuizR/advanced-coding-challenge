@@ -45,7 +45,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Todos");
+                    b.ToTable("TodoItems");
                 });
 #pragma warning restore 612, 618
         }
