@@ -4,6 +4,7 @@ using Application.TodoItems.Queries.GetTodoItems;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -48,10 +49,10 @@ namespace DaBulllet.TODO.API.Controllers
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        [HttpDelete]
-        public async Task<IActionResult> DeleteTodoItem([FromBody] DeleteTodoItemCommand command)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTodoItem(Guid id)
         {
-            await _mediator.Send(command);
+            await _mediator.Send(new DeleteTodoItemCommand { Id = id });
 
             return Ok();
         }

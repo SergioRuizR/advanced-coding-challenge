@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{E36F67C5-139F-415F-B7E8-88E5E88F4026}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{00E644D5-8AAC-4FDC-BAF4-375EB0AD2024}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Da.Bullet.TODO.API.IntegrationTests", "Da.Bullet.TODO.API.IntegrationTests\Da.Bullet.TODO.API.IntegrationTests.csproj", "{FBD184B9-8681-457A-9493-5E11C49C7D69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,10 @@ Global
 		{E36F67C5-139F-415F-B7E8-88E5E88F4026}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E36F67C5-139F-415F-B7E8-88E5E88F4026}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E36F67C5-139F-415F-B7E8-88E5E88F4026}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBD184B9-8681-457A-9493-5E11C49C7D69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBD184B9-8681-457A-9493-5E11C49C7D69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBD184B9-8681-457A-9493-5E11C49C7D69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBD184B9-8681-457A-9493-5E11C49C7D69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +52,7 @@ Global
 		{C67515A4-4C6E-49CD-B8C5-8FCECDBEA0B5} = {3289960D-B0F3-4F02-A54E-7926AA0FAD12}
 		{56A9A168-A4F7-4D9F-9F3D-C1C393D51572} = {3289960D-B0F3-4F02-A54E-7926AA0FAD12}
 		{E36F67C5-139F-415F-B7E8-88E5E88F4026} = {3289960D-B0F3-4F02-A54E-7926AA0FAD12}
+		{FBD184B9-8681-457A-9493-5E11C49C7D69} = {00E644D5-8AAC-4FDC-BAF4-375EB0AD2024}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CF973EA0-44BB-4362-8ABE-A489A492EB3F}
