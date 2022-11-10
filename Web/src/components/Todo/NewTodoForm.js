@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { TodoContext } from "../context/TodoContext";
+import { TodoContext } from "../../contexts/TodoContext";
 
 import Card from "../containers/Card";
 import "./NewTodoForm.css";

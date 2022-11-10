@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import TodoItem from "./TodoItem";
-import { TodoContext } from "../context/TodoContext";
+import { TodoContext } from "../../contexts/TodoContext";
 
 import "./TodoList.css";
 

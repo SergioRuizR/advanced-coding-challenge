@@ -34,6 +34,16 @@ namespace DaBulllet.TODO.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => 
+                    options
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .WithMethods("GET","POST","DELETE")
+                );
+            });
+
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             //services.AddControllers();
@@ -64,6 +74,9 @@ namespace DaBulllet.TODO.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("AllowOrigin");
+
 
             app.UseHealthChecks("/health");
 
