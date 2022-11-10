@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
-// import { useAxios } from "../hooks/useAxios";
+import { toast } from "react-toastify";
 
 export const TodoContext = createContext();
 
@@ -16,18 +16,25 @@ export const TodoProvider = (props) => {
       .post("/", todo)
       .then((response) => {
         console.log(todos);
+        toast.success("The todo item has been created");
         setTodos([...todos, todo]);
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.log(error);
+        toast.error(`${buildErrorMessage(error.response.data.errors)}`);
+      });
   };
 
   const removeTodoHandler = (id) => {
     client
       .delete(`/${id}`)
       .then((response) => {
+        toast.success("The todo item has been deleted");
         setTodos(todos.filter((currentTodo) => currentTodo.id != id));
       })
-      .catch((error) => {});
+      .catch((error) => {
+        toast.error(`${buildErrorMessage(error.response.data.errors)}`);
+      });
   };
 
   useEffect(() => {
@@ -35,6 +42,14 @@ export const TodoProvider = (props) => {
       setTodos(response.data);
     });
   }, []);
+
+  const buildErrorMessage = (errors) => {
+    let formatErrors = "";
+    for (const [key, value] of Object.entries(errors)) {
+      formatErrors += `\n${key}: ${value}\n`;
+    }
+    return formatErrors;
+  };
 
   return (
     <TodoContext.Provider
