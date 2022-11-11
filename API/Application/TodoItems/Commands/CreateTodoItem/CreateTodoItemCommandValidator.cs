@@ -26,8 +26,8 @@ namespace Application.TodoItems.Commands.CreateTodoItem
                 })
                 .WithErrorCode("AlreadyExists")
                 .WithMessage($"The Todo Item already exists.");
-            RuleFor(x => x.Title).NotNull().NotEmpty();
-            RuleFor(x => x.Description).NotNull().NotEmpty();
+            RuleFor(x => x.Title).NotNull().NotEmpty().MinimumLength(5).MaximumLength(20);
+            RuleFor(x => x.Description).NotNull().NotEmpty().MinimumLength(10).MaximumLength(200);
         }
     }
 }
