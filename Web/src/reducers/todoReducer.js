@@ -34,15 +34,14 @@ export default function todoReducers(state = [], action) {
       return state;
 
     case DELETE_TODOITEM:
-      client
-        .delete(`/${action.id}`)
-        .then((response) => {
-          toast.success("The todo item has been deleted");
-          state = state.filter((currentTodo) => currentTodo.id != action.id);
-        })
-        .catch((error) => {
-          toast.error(`${buildErrorMessage(error.response.data.errors)}`);
-        });
+      if (action.payload.success) {
+        toast.success("The todo item has been deleted");
+        state = state.filter(
+          (currentTodo) => currentTodo.id != action.payload.id
+        );
+      } else {
+        toast.error(`${buildErrorMessage(action.payload.errors)}`);
+      }
       return state;
     default:
       return state;

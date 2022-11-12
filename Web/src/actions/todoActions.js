@@ -1,4 +1,4 @@
-import { addTodoItem, getTodos } from "../services/todos";
+import { addTodoItem, deleteTodoItem, getTodos } from "../services/todos";
 import { ADD_TODOITEM, DELETE_TODOITEM, INIT_DATA } from "../types";
 
 export const AddTodoItem = (todo) => {
@@ -12,7 +12,16 @@ export const AddTodoItem = (todo) => {
   };
 };
 
-export const DeleteTodoItem = (id) => ({ type: DELETE_TODOITEM, id: id });
+export const DeleteTodoItem = (id) => {
+  return async (dispatch) => {
+    await deleteTodoItem(id).then((response) => {
+      dispatch({
+        type: DELETE_TODOITEM,
+        payload: { success: response.success, id: id },
+      });
+    });
+  };
+};
 
 export const InitData = () => {
   return async (dispatch) => {
