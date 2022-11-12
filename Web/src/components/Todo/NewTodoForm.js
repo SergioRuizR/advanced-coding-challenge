@@ -1,13 +1,14 @@
 import React, { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useForm } from "react-hook-form";
-import { TodoContext } from "../../contexts/TodoContext";
+import { useDispatch, useSelector } from "react-redux";
+import { AddTodoItem } from "../../actions/todoActions";
 
-import Card from "../containers/Card";
 import "./NewTodoForm.css";
 
 const TodoForm = (props) => {
-  const { addToDo } = useContext(TodoContext);
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -16,11 +17,13 @@ const TodoForm = (props) => {
   } = useForm();
   const submitHandler = (event) => {
     // event.preventDefault();
-    addToDo({
-      id: uuidv4(),
-      title: title,
-      description: description,
-    });
+    dispatch(
+      AddTodoItem({
+        id: uuidv4(),
+        title: title,
+        description: description,
+      })
+    );
     setTitle("");
     setDescription("");
   };

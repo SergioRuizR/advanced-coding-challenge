@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
-import { TodoContext } from "../../contexts/TodoContext";
+import { useDispatch } from "react-redux";
+import { DeleteTodoItem } from "../../actions/todoActions";
+import { DELETE_TODOITEM } from "../../types";
 
 const TodoItem = ({ todo }) => {
-  const { removeToDo } = useContext(TodoContext);
+  const dispatch = useDispatch();
 
   return (
     <div className="bg-[#FC766AFF] text-[#184A45FF] p-6 rounded-md h-50 transition duration-500 hover:scale-110 hover:bg-[#ed594c] ">
@@ -17,7 +19,7 @@ const TodoItem = ({ todo }) => {
         <button
           className="bg-[#4eab97] hover:bg-[#129a7c] text-white font-bold py-2 px-4 rounded"
           onClick={(e) => {
-            removeToDo(todo.id);
+            dispatch(DeleteTodoItem(todo.id));
           }}
         >
           Delete
